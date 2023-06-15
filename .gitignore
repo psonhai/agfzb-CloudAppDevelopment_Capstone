@@ -140,3 +140,5 @@ server/djangoapp/migrations/
 *.pyc
 server/djangoapp/migrations/
 
+# Ignore IBM credential
+functions/.creds-sample.json
