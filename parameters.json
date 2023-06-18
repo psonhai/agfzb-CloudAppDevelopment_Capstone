@@ -1,0 +1,8 @@
+{
+  "url": "www.ibm.com",
+  "features": {
+    "categories": {
+      "limit": 3
+    }
+  }
+}
