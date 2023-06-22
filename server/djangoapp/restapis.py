@@ -78,6 +78,11 @@ def get_dealers_from_cf(url, **kwargs):
 			results.append(dealer_obj)
 	return results
 
+def get_dealer_by_id_from_cf(dealer_id):
+	json_result = get_request('https://us-south.functions.appdomain.cloud/api/v1/web/704fa087-0d6f-4afe-b2d6-2c553f6625d1/dealership-package/get_dealer_by_id', dealerId=dealer_id)
+	if json_result:
+		return json_result
+
 def get_dealer_reviews_from_cf(url, dealer_id):
 	results = []
 	json_result = get_request(url, dealerId=dealer_id)
@@ -97,7 +102,7 @@ def get_dealer_reviews_from_cf(url, dealer_id):
 				car_year=review.get('car_year', None),
 				id=review.get('id', None),
 			)
-			review_obj.sentiment = analyze_review_sentiments(review_obj.review)
+			review_obj.sentiment = analyze_review_sentiments(review_obj.review)['sentiment']['document']['label']
 			results.append(review_obj)
 	print(results)
 	return results
@@ -110,8 +115,8 @@ def analyze_review_sentiments(dealer_review):
 	url = "https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/efa226dd-feb5-41a1-97e6-50e668f9be7a/v1/analyze?version"
 	api_key = os.environ.get("NLU_IBM_API_KEY", None)
 	features = {
-    "sentiment": {}
-  }
+		"sentiment": {}
+	}
 	version="2022-04-07"
 	response = get_request(url, api_key=api_key, text=dealer_review, version=version, features=features, return_analyzed_text="")
 	print(response)

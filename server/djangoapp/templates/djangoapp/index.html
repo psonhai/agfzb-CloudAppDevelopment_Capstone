@@ -1,58 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Dealership Review</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
-    <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Dealership Review</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <link href="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
+  <script
+    src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 
 </head>
 
-    <body>
-    <!--Add a nav bar here -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Dealership Review</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./about">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./contact">Contact Us</a>
-          </li>
-        </ul>
-        {% if not user.is_authenticated %}
-        <form class="form-inline my-2 my-lg-0"  method="post" action="./login">{% csrf_token %}
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="username" name="username">
-              <input type="password" class="form-control" placeholder="" aria-label="" aria-describedby="password" name="password">
-            </div>
-          </div>          
-          <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
-          <button type="button" class="btn btn-link">Sign Up</button>
-        </form>
-        {% else %}
-        <form class="form-inline my-2 my-lg-0" method="post" action="./logout">{% csrf_token %}
-          <button type="button" class="btn btn-link">{{ user.username }}</button>
-          <button type="submit" class="btn btn-link">Logout</button>
-        </form>
-        {% endif %}
-      </div>
-    </nav>
-    <!--Add a dealer table here -->
+<body>
+  <!--Add a nav bar here -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Dealership Review</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./contact">Contact Us</a>
+        </li>
+      </ul>
+      {% if not user.is_authenticated %}
+      <form class="form-inline my-2 my-lg-0" method="post" action="./login">{% csrf_token %}
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="username"
+              name="username">
+            <input type="password" class="form-control" placeholder="" aria-label="" aria-describedby="password"
+              name="password">
+          </div>
+        </div>
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">Login</button>
+        <button type="button" class="btn btn-link">Sign Up</button>
+      </form>
+      {% else %}
+      <form class="form-inline my-2 my-lg-0" method="post" action="./logout">{% csrf_token %}
+        <button type="button" class="btn btn-link">{{ user.username }}</button>
+        <button type="submit" class="btn btn-link">Logout</button>
+      </form>
+      {% endif %}
+    </div>
+  </nav>
+  <!--Add a dealer table here -->
 
-    </body>
+  <table class="table" id="table" data-filter-control="true">
+    <thead>
+      <tr>
+        <th data-field="id">ID</th>
+        <th data-field="dealer_name">Dealer Name</th>
+        <th data-field="city">City</th>
+        <th data-field="address">Address</th>
+        <th data-field="zip">Zip</th>
+        <th data-field="state" data-filter-control="select">State</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dealer in dealership_list %}
+      <tr>
+        <td>{{dealer.id}}</td>
+        <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}}</a></td>
+        <td>{{dealer.city}}</td>
+        <td>{{dealer.address}}</td>
+        <td>{{dealer.zip}}</td>
+        <td>{{dealer.st}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script>
+    $(function() {
+      $('#table').bootstrapTable()
+    })
+  </script>
+</body>
 
 </html>

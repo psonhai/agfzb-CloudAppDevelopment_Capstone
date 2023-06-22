@@ -76,11 +76,10 @@ class DealerReview:
 		self.car_model = kwargs.get('car_model', None)
 		self.car_year = kwargs.get('car_year', None)
 		self.id = kwargs.get('id', None)
-		self.sentiment = self.get_sentiment(kwargs.get('review', ''))
+		# self.sentiment = self.get_sentiment(kwargs.get('review', ''))
 
-	@staticmethod
-	def get_sentiment(review):
-		return "positive"
+	def get_sentiment(self):
+		return self.sentiment['sentiment']['document']['label']
 
 	def __str__(self):
 		return f"""Dealer Review:
